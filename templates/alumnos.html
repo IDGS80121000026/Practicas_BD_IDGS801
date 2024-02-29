@@ -1,0 +1,61 @@
+{% extends "layout2.html" %}
+
+{% block container %}
+{% import "_macros.html" as macros %}
+<h1>Hola desde Alumnos</h1>
+
+    <form action="" method="post">
+        <div class="row control- group" method="POST" novalidate>
+            <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+                <!--{{macros.datos("Nombre","NOMBRE")}}-->
+                {{macros.camposNuevos(form.nombre,class='form-control')}}
+            </div>
+        </div>
+
+        <div class="row control- group" method="POST" novalidate>
+            <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+                <!--{{macros.datos("Nombre","NOMBRE")}}-->
+                {{macros.camposNuevos(form.apaterno,class='form-control')}}
+            </div>
+        </div>
+
+        <div class="row control- group" >
+            <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+                <!--{{macros.datos("Nombre","NOMBRE")}}-->
+                {{macros.camposNuevos(form.amaterno,class='form-control')}}
+            </div>
+        </div>
+
+        <div class="row control- group" >
+            <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+                <!--{{macros.datos("Nombre","NOMBRE")}}-->
+                {{macros.camposNuevos(form.email,class='form-control')}}
+            </div>
+        </div>
+
+        <div class="row control- group" >
+            <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+                <!--{{macros.datos("Nombre","NOMBRE")}}-->
+                {{macros.camposNuevos(form.edad,class='form-control')}}
+            </div>
+        </div>
+        <input type="submit" id="btn1" name="btn1" value="Registrar">
+        
+        
+        
+
+    </form>
+
+    <h1>Nombre: {{nom}}</h1>
+    <h1>Apaterno: {{apa}}</h1>
+    <h1>Amaterno: {{ama}}</h1>
+    <!--<h2>Escuela: {{titulo}}</h2>
+        {% for  nom in nombres%}
+            <h3>{{nom}}</h3>
+
+        {%endfor%}-->
+
+{%endblock%}
+
+
+
