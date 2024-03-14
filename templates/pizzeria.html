@@ -1,0 +1,206 @@
+{% extends "layout2.html" %}
+{% block container %}
+{% import "_macros.html" as macros %}
+
+<div class="container">
+    <div class="row">
+        <form name="sent" action="/pizzeria" id="contactForm" method="POST">
+            <div class="row control-group">
+                <div class="form-group col-xs-6 col-sm-3 float-label-form-group controls" >
+                    {{macros.camposNuevos(form.nombre,class='form-control')}}
+                    
+                </div>
+                <div class="form-group col-xs-12 col-sm-3 floating-label-form-group controls">
+                    {{macros.camposNuevos(form.direccion,class='form-control')}}
+                </div>
+                <div class="form-group col-xs-12 col-sm-3 floating-label-form-group controls">
+                    {{macros.camposNuevos(form.telefono,class='form-control')}}
+                </div>
+                <div class="form-group col-xs-12 col-sm-3 floating-label-form-group controls">
+    <label for="fechaV">Fecha venta</label><br>
+    <input type="date" id="fechaV" name="fechaV" value="{{ request.form.get('fechaV', '') }}">
+</div>
+
+            </div>
+                
+            <div class="row control-group" >
+                <div class="form-group col-xs-12 col-sm-4 floating-label-form-group controls">
+                    <label><h5>Tamaño de la pizza</h5></label><br>
+                    <input type="radio" id="1" name="tamanio" value="Chica">
+                    <label for="Chica">Chica $40</label><br>
+                    <input type="radio" id="2" name="tamanio" value="Mediana">
+                    <label for="Mediana">Mediana $80</label><br>
+                    <input type="radio" id="3" name="tamanio" value="Grande">
+                    <label for="Grande">Grande $120</label><br>
+                </div>
+                <div class="form-group col-xs-12 col-sm-4 floating-label-form-group controls">
+                    <label><h5>Ingredientes de la pizza</h5></label><br>
+                    <input type="checkbox" id="jamon" name="jamon" value="Jamon">
+                    <label for="jamon">Jamon $10</label><br>
+                    <input type="checkbox" id="pinia" name="pinia" value="Piña">
+                    <label for="pinia"> Piña $10</label><br>
+                    <input type="checkbox" id="cham" name="cham" value="Champiñones">
+                    <label for="cham"> Champiñones $10</label><br>
+                </div>
+                <div class="form-group col-xs-12 col-sm-3 floating-label-form-group controls">
+                    {{macros.camposNuevos(form.numPizza,class='form-control')}}
+                </div>
+            </div>
+            <br>
+            <div class="text-right">
+                <input type="hidden" name="csrf_token" value="{{csrf_token() }}"/>
+                <button type="submit" id="Agregar"  value='Agregar' onclick="document.getElementById('btnO').value = 0;" class="btn btn-success">Agregar</button>
+                <input type="text" id="btnO" name="btnO"  value='0' class="d-none">
+            </div>
+    
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-7 col-sm-7">
+            
+            <table class="table" id="final">
+                <thead class="thead-light">
+                    <tr class="table-active">
+                        
+                        <th>Tamaño</th>
+                        <th>Ingredientes</th>
+                        <th>Num.Pizzas</th>
+                        <th>Sub Total</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pizz in pizza %}
+                    <tr>
+                        <td>{{ pizz.tamanio }}</td>
+                        <td>{{ pizz.ingredientes }}</td>
+                        <td>{{ pizz.numPizza }}</td>
+                        <td>{{ pizz.subTotal }}</td>
+                        
+                        <td>                            
+                            <button type="submit" name="eli" id="pizza_id" value="{{ loop.index-1 }}" 
+                            onclick="document.getElementById('btnO').value = 1; eliminarPizza('{{ loop.index-1 }}');" class="btn btn-danger">Eliminar</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="d-flex">
+                <input type="hidden" name="csrf_token" value="{{csrf_token() }}"/>
+                
+                <button type="submit" id="Terminar"  value='Terminar' onclick="document.getElementById('btnO').value = 2;" class="btn btn-light">Terminar</button>
+
+            </div>
+        </div>
+        
+        <div class="col-xs-5 col-sm-5" style="background-color: gainsboro;">
+            <center>
+            <div class="form-groupform-group col-xs-12 col-sm-5 floating-label-form-group ontrols">
+                <h4>Tabla de ventas</h4>
+                <select name="tipo" id="tipo">
+                                <option value="enero">Enero</option>
+                                <option value="febrero">Febrero</option>
+                                <option value="marzo">Marzo</option>
+                                <option value="abril">Abril</option>
+                                <option value="Mayo">Mayo</option>
+                                <option value="Junio">Junio</option>
+                                <option value="Julio">Julio</option>
+                                <option value="Agosto">Agosto</option>
+                                <option value="Septiembre">Septiembre</option>
+                                <option value="Octubre">Octubre</option>
+                                <option value="Noviembre">Noviembre</option>
+                                <option value="Diciembre">Diciembre</option>
+                                <option value="Lunes">Lunes</option>
+                                <option value="Martes">Martes</option>
+                                <option value="Miercoles">Miercoles</option>
+                                <option value="Jueves">Jueves</option>
+                                <option value="Viernes">Viernes</option>
+                                <option value="Sabado">Sabado</option>
+                                <option value="Domingo">Domingo</option>
+                            </select>
+            </div>
+            <br>
+            <table class="table table-striped table-bordered" id="final">
+                <tbody>
+                    
+                    {% for pizza in ventas_dia_actual %}
+                    <tr>
+                        <td>{{pizza.nombre}}</td>
+                        <td>{{pizza.precio}}</td>
+                    </tr>
+                    {% endfor %}
+                    <td>Ventas totales del día: {{total_ventas_mes }}</td>
+                </tbody>
+            </table>
+            <button type="submit" id="Buscar"  value='Buscar' onclick="document.getElementById('btnO').value = 3;" class="btn btn-light"> Buscar</button>
+            <br>
+        </center>
+        </div>
+        
+    </div>
+</form>
+    
+</div>
+
+
+
+{% endblock %}
+
+
+<script>
+    document
+        .getElementById('Agregar')
+        .addEventListener('click', function () {
+            document.getElementById('isSave').value = 0;
+        });
+
+    document
+        .getElementById('Terminar')
+        .addEventListener('click', function () {
+            document.getElementById('isSave').value = 1;
+        });
+    
+        document
+        .getElementById('Buscar')
+        .addEventListener('click', function () {
+            document.getElementById('isSave').value = 3;
+        });
+
+        document
+        .getElementById('Eliminar')
+        .addEventListener('click', function () {
+            document.getElementById('isSave').value = 1;
+        });
+        
+        function eliminarPizza(pizza_id) {
+            // Eliminar la fila de la tabla que contiene la pizza a eliminar
+            var row = document.querySelector(`tr[data-id="${pizza_id}"]`);
+            row.parentNode.removeChild(row);
+            
+            // Llamar a la función de Flask para eliminar la pizza de la lista
+            fetch('/eliminar_pizza', {
+                method: 'POST',
+                body: JSON.stringify({ pizza_id: pizza_id }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf_token  // Reemplaza csrf_token con el valor de tu token CSRF
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete pizza');
+                }
+                // Manejar la respuesta si es necesario
+            })
+            .catch(error => {
+                console.error('Error deleting pizza:', error);
+            });
+        }
+
+
+
+
+        </script>
+        

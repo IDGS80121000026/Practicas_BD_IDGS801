@@ -1,0 +1,38 @@
+{% extends "layout2.html" %}
+{% from "_macros.html" import render_flied%}
+{%block container%}
+
+<div class="container">
+    <div class="row">
+    <h3>Empleados</h3>
+    <h4 ><a href="/index"></a>Empleado</h4>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Tamaño</th>
+                <th>Ingredientes</th>
+                <th>Num.Pizzas</th>
+                <th>Sub Total</th>
+                <th>Quitar</th>
+                <th>Terminar</th>
+            </tr>
+        </thead>
+    <tbody>
+        {%for pizz in pizza%}
+        <tr>
+            <td>{{pizz.tamanio}}</td>
+            <td>{{pizz.ingredientes}}</td>
+            <td>{{pizz.numPizza}}</td>
+            <td>{{pizz.subTotal}}</td>
+            <td><a href="eliminar.html?id={{pizz.id}}"
+                class="btn btn-danger">Eliminar</a></td>
+            <td><a href="modificar.html?id={{emple.id}}"
+                    class="btn btn-warning">Modificar</a></td>
+        </tr>
+        {%endfor%}
+    </tbody>
+    </table>
+</div>
+</div>
+
+{%endblock%}
